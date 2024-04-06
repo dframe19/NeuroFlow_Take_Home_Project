@@ -1,5 +1,7 @@
 --- 1. How many users completed an exercise in their first month per monthly cohort?
 
+--- In this question I am making the assumption that we are only looking at one year of data (e.g. only 2018)
+
 SELECT
   created month,
   ROUND(100 * (num_first_month / num_users),2) AS completion_pct
