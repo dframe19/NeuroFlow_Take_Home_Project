@@ -1,0 +1,77 @@
+--- 1. How many users completed an exercise in their first month per monthly cohort?
+
+WITH completion AS (
+SELECT
+  users.user_id,
+  DATE_PART('month', users.created_at) AS created_month
+  DATE_PART('year', users.created_at) AS created_year,
+  DATE_PART('month', exercises.exercise_completion_date) AS exercise_month
+  DATE_PART('year', exercises.exercise_completeion_date) AS exercise_year
+  exercises.exercise_id
+FROM users
+  LEFT JOIN exercises
+ON users.user_id = exercises.user_id)
+
+SELECT
+  user_id,
+  created_month,
+  created_year
+SUM(CASE
+  WHEN created_month = exercise_month AND created_year = exercise_year THEN 1 ELSE 0 END)
+GROUP BY created_month, created_year;
+
+
+--- 2. How many users completed a given amount of exercises?
+
+WITH user_frequency AS (
+SELECT
+  users.user_id,
+  COUNT(DISTINCT exercises.exercise_id) AS exercise_count
+FROM users
+  LEFT JOIN exercises
+ON users.user_id = exercises.user_id)
+
+SELECT
+  exercise_count,
+  COUNT(DISTINCT user_id) as num_users
+FROM user_frequency
+GROUP BY exercise_count;
+
+
+--- 3. Which organizations have the most severe patient population?
+
+SELECT
+  providers.organization_name,
+  AVG(Phq9.score) AS average_score
+FROM Phq9
+  LEFT JOIN providers
+ON Phq9.provider_id = Providers.provider_id
+GROUP BY providers.organization_name
+ORDER BY average_score DESC
+LIMIT 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
