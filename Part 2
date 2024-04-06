@@ -3,12 +3,12 @@
 --- In this question I am making the assumption that we are only looking at one year of data (e.g. only 2018)
 
 SELECT
-  created month,
+  monthly_cohort,
   ROUND(100 * (num_first_month / num_users),2) AS completion_pct
 FROM
 
 (SELECT
-  DATE_PART('month', users.created_at) AS created_month,
+  DATE_PART('month', users.created_at) AS monthy_cohort,
 COUNT(DISTINCT users.user_id) FILTER(
     WHERE DATE_PART('month', users.created_at) = DATE_PART('month', exercises.exercise_completion_date)) AS num_first_month
 COUNT(DISTINCT users.user_id) AS num_users
@@ -17,7 +17,7 @@ FROM users
 ON users.user_id = exercises.user_id
 GROUP BY DATE_PART('month', users.created_at)) AS subquery
 
-GROUP BY created_month
+GROUP BY monthly_cohort
 ORDER BY completion_pct DESC;
 
 
