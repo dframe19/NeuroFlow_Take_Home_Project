@@ -2,4 +2,4 @@
 
 For both questions I used PostgreSQL syntax.
 
-For Question 1, I used DBeaver to connect to PostGres and loaded in the dataset.
+For Question 1, I used DBeaver to connect to Postgres and loaded in the dataset.
